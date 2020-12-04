@@ -42,7 +42,8 @@ bool sendLineMessage(String msg) {
   // 送信中画面表示
   UIController::drawSendingMessage();
   delay(200);
-  return LineApiClient::sendBroadcastMessage(msg);
+  return LineApiClient::sendGroupMessage(msg);
+  //return LineApiClient::sendBroadcastMessage(msg);
 }
 
 // 選択時の動作
@@ -110,11 +111,11 @@ void setup() {
 }
 
 void loop() {
-  #if DEVICE != M5STACKCORE2
-    M5.update();
-  #endif
+#if DEVICE != M5STACKCORE2
+  M5.update();
+#endif
 
-  #if DEVICE == M5STACKBASIC
+#if DEVICE == M5STACKBASIC
     if (M5.BtnC.wasPressed()) {
       onPushItem(0);
     }
@@ -124,9 +125,9 @@ void loop() {
     if (M5.BtnA.wasPressed()) {
       onPushItem(2);
     }
-  #endif
+#endif
 
-  #if DEVICE == M5STACKCORE2
+#if DEVICE == M5STACKCORE2
   TouchPoint_t pos = M5.Touch.getPressPoint();
   if (pos.x > 0 && pos.y > 0) {
     if (pos.x > 2 * (320 / 3)) {
@@ -137,14 +138,14 @@ void loop() {
       onPushItem(2);
     }
   }
-  #endif
+#endif
 
-  #if DEVICE == ATOMLITE || DEVICE == ATOMMATRIX
-    UIController::drawMainScreen(message_item);
-    if (M5.Btn.wasPressed()) {
-      onPushItem(0);
-    }
-  #endif
+#if DEVICE == ATOMLITE || DEVICE == ATOMMATRIX
+  UIController::drawMainScreen(message_item);
+  if (M5.Btn.wasPressed()) {
+    onPushItem(0);
+  }
+#endif
 
   delay(10);
 }

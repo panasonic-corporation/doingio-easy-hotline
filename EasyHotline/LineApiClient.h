@@ -15,4 +15,5 @@ private:
 
 public:
     static bool sendBroadcastMessage(String message);
+    static bool sendGroupMessage(String message);
 };
