@@ -4,11 +4,11 @@
   #include <M5Stack.h>
 #elif DEVICE == M5STACKCORE2
   #include <M5Core2.h>
-#elif DEVICE == ATOMLITE || DEVICE == ATOMMATRIX
+#elif DEVICE == ATOMLITE || DEVICE == ATOMMATRIX || DEVICE == ATOMECHO
   #include <M5Atom.h>
 #endif
 
-#if DEVICE == M5STACKBASIC || DEVICE == M5STACKCORE2
+#if DEVICE == M5STACKBASIC || DEVICE == M5STACKCORE2 || DEVICE == ATOMECHO
   #include "SoundPlayer.h"
 #endif
 
@@ -42,8 +42,8 @@ bool sendLineMessage(String msg) {
   // 送信中画面表示
   UIController::drawSendingMessage();
   delay(200);
-  return LineApiClient::sendGroupMessage(msg);
-  //return LineApiClient::sendBroadcastMessage(msg);
+  //return LineApiClient::sendGroupMessage(msg);
+  return LineApiClient::sendBroadcastMessage(msg);
 }
 
 // 選択時の動作
@@ -53,6 +53,9 @@ void onPushItem(int idx) {
     // 選択時の音を再生
     #if DEVICE == M5STACKBASIC || DEVICE == M5STACKCORE2
       SoundPlayer::playMP3(SELECT_SOUND_PATH);
+    #endif
+    #if DEVICE == ATOMECHO
+      SoundPlayer::playWAV();
     #endif
     // LINEにメッセージ送信
     if (sendLineMessage(message_item[idx])) {
@@ -77,7 +80,7 @@ void onPushItem(int idx) {
 void setup() {
   #if DEVICE == M5STACKBASIC || DEVICE == M5STACKCORE2
     M5.begin();
-  #elif DEVICE == ATOMLITE || DEVICE == ATOMMATRIX
+  #elif DEVICE == ATOMLITE || DEVICE == ATOMMATRIX || DEVICE == ATOMECHO
     M5.begin(true, false, true);
     delay(50);
     M5.dis.setBrightness(70);
@@ -140,7 +143,7 @@ void loop() {
   }
 #endif
 
-#if DEVICE == ATOMLITE || DEVICE == ATOMMATRIX
+#if DEVICE == ATOMLITE || DEVICE == ATOMMATRIX || DEVICE == ATOMECHO
   UIController::drawMainScreen(message_item);
   if (M5.Btn.wasPressed()) {
     onPushItem(0);

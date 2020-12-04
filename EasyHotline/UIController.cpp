@@ -16,7 +16,7 @@ void UIController::drawMainScreen(const char *message_item[]) {
     for (int i = 0; i < 3; i++) {
       M5.Lcd.drawString(message_item[i], 10, i * M5.Lcd.height() / 3 + 45);
     }
-  #elif DEVICE == ATOMLITE
+  #elif DEVICE == ATOMLITE || DEVICE == ATOMECHO
     M5.dis.drawpix(0, 0xffffff);
   #elif DEVICE == ATOMMATRIX
     int dots[] = {1, 1, 1, 1, 1,
@@ -64,7 +64,7 @@ void UIController::drawStatusScreen(bool success) {
     } else {
       M5.Lcd.drawJpgFile(SD, FAILED_IMAGE_PATH);
     }
-  #elif DEVICE == ATOMLITE
+  #elif DEVICE == ATOMLITE || DEVICE == ATOMECHO
     if (success) {
       M5.dis.drawpix(0, 0x0044ff);
     } else {
@@ -106,7 +106,7 @@ void UIController::drawStatusScreen(bool success) {
 void UIController::drawConnectingWifi() {
   #if DEVICE == M5STACKBASIC || DEVICE == M5STACKCORE2
     M5.Lcd.drawJpgFile(SD, CONNECTING_IMAGE_PATH);
-  #elif DEVICE == ATOMLITE
+  #elif DEVICE == ATOMLITE || DEVICE == ATOMECHO
     M5.dis.drawpix(0, 0xffff00);
   #elif DEVICE == ATOMMATRIX
     int dots[] = {0, 1, 1, 1, 0,
@@ -127,7 +127,7 @@ void UIController::drawConnectingWifi() {
 void UIController::drawSendingMessage() {
   #if DEVICE == M5STACKBASIC || DEVICE == M5STACKCORE2
     M5.Lcd.drawJpgFile(SD, SENDING_IMAGE_PATH);
-  #elif DEVICE == ATOMLITE
+  #elif DEVICE == ATOMLITE || DEVICE == ATOMECHO
     M5.dis.drawpix(0, 0xff00ff);
   #elif DEVICE == ATOMMATRIX
     int dots[] = {0, 1, 1, 1, 1,
