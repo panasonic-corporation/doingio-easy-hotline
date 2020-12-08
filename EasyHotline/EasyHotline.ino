@@ -1,15 +1,20 @@
 #include "Config.h"
 
 #if DEVICE == M5STACKBASIC
-  #include <M5Stack.h>
+#include <M5Stack.h>
 #elif DEVICE == M5STACKCORE2
-  #include <M5Core2.h>
+#include <M5Core2.h>
 #elif DEVICE == ATOMLITE || DEVICE == ATOMMATRIX || DEVICE == ATOMECHO
-  #include <M5Atom.h>
+#include <M5Atom.h>
 #endif
 
 #if DEVICE == M5STACKBASIC || DEVICE == M5STACKCORE2 || DEVICE == ATOMECHO
-  #include "SoundPlayer.h"
+#include "SoundPlayer.h"
+#endif
+
+#if USE_BLE == true
+#include "BLEController.h"
+BLEController* ble_controller = new BLEController();
 #endif
 
 #include <WiFi.h>
@@ -23,6 +28,7 @@ void connectWifi() {
     UIController::drawConnectingWifi();
     if ((WiFi.status() != WL_CONNECTED)) {
         WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+        Serial.print("Connecting");
         while (WiFi.status() != WL_CONNECTED) {
             Serial.print('.');
             delay(500);
@@ -35,9 +41,6 @@ void connectWifi() {
 
 // LINEへ投稿
 bool sendLineMessage(String msg) {
-  if (WiFi.status() != WL_CONNECTED) {
-    connectWifi();
-  }
   Serial.printf("Send : %s\n", msg.c_str());
   // 送信中画面表示
   UIController::drawSendingMessage();
@@ -48,6 +51,7 @@ bool sendLineMessage(String msg) {
 
 // 選択時の動作
 void onPushItem(int idx) {
+
     // 選択時に反転表示
     UIController::drawSelectedItem(idx, message_item[idx]);
     // 選択時の音を再生
@@ -57,6 +61,11 @@ void onPushItem(int idx) {
     #if DEVICE == ATOMECHO
       SoundPlayer::playWAV();
     #endif
+
+
+    // WiFi接続
+    connectWifi();
+
     // LINEにメッセージ送信
     if (sendLineMessage(message_item[idx])) {
       // 送信成功画面表示
@@ -73,6 +82,19 @@ void onPushItem(int idx) {
         SoundPlayer::playMP3(FAILED_SOUND_PATH);
       #endif
     }
+    WiFi.disconnect();
+
+    #if USE_BLE == true
+      Serial.println("init ble");
+      ble_controller->init();
+      Serial.println("start advertise");
+      ble_controller->startAdvertise(message_item[0]);
+      delay(5000);
+      Serial.println("stop advertise");
+      ble_controller->stopAdvertise();
+      Serial.println("deinit ble");
+      ble_controller->deinit();
+    #endif
     // メイン画面表示
     UIController::drawMainScreen(message_item);
 }
@@ -92,7 +114,6 @@ void setup() {
     M5.Axp.SetSpkEnable(true);
   #endif
 
-
   #if DEVICE == M5STACKBASIC || DEVICE == M5STACKCORE2
     M5.Lcd.clear();
     M5.Lcd.setTextWrap(true, true);
@@ -102,9 +123,6 @@ void setup() {
     M5.Lcd.drawJpgFile(SD, LOGO_IMAGE_PATH);
     delay(1000);
   #endif
-
-  // WiFi接続
-  connectWifi();
 
   // Loading画面表示
   UIController::drawLoading();
@@ -119,15 +137,15 @@ void loop() {
 #endif
 
 #if DEVICE == M5STACKBASIC
-    if (M5.BtnC.wasPressed()) {
-      onPushItem(0);
-    }
-    if (M5.BtnB.wasPressed()) {
-      onPushItem(1);
-    }
-    if (M5.BtnA.wasPressed()) {
-      onPushItem(2);
-    }
+  if (M5.BtnC.wasPressed()) {
+    onPushItem(0);
+  }
+  if (M5.BtnB.wasPressed()) {
+    onPushItem(1);
+  }
+  if (M5.BtnA.wasPressed()) {
+    onPushItem(2);
+  }
 #endif
 
 #if DEVICE == M5STACKCORE2

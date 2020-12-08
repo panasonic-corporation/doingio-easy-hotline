@@ -5,8 +5,12 @@
 #define M5STACKCORE2 1 // M5Stack Core2
 #define ATOMLITE     2 // ATOM Lite
 #define ATOMMATRIX   3 // ATOM Matrix
+#define ATOMECHO     4 // ATOM Echo
 
 #define DEVICE       0 // 使用するデバイスの数字を上から選んで記入してください
+
+/* BLE */
+#define USE_BLE false // BLE発信する場合はtrue
 
 /* WiFi */
 #define WIFI_SSID     "" // WiFiのSSID
