@@ -1,19 +1,29 @@
 #pragma once
 
-#define M5STACKBASIC 0 // M5StackBasic
-#define M5STACKCORE2 1 // M5StackCore2
-#define ATOMLITE     2 // AtomLite
-#define ATOMMATRIX   3 // AtomMatrix
+/* 使用するデバイス設定 */
+#define M5STACKBASIC 0 // M5Stack Basic
+#define M5STACKCORE2 1 // M5Stack Core2
+#define ATOMLITE     2 // ATOM Lite
+#define ATOMMATRIX   3 // ATOM Matrix
+#define ATOMECHO     4 // ATOM Echo
 
 #define DEVICE       0 // 使用するデバイスの数字を上から選んで記入してください
 
+/* BLE */
+#define USE_BLE false // BLE発信する場合はtrue
+
+/* WiFi */
 #define WIFI_SSID     "" // WiFiのSSID
 #define WIFI_PASSWORD "" // WiFiのパスワード
 
-#define LINE_HOST             "api.line.me"                // LINE Messaging APIのホスト名
-#define LINE_BROADCAST_PATH   "/v2/bot/message/broadcast"  // LINE Messaging APIのパス
-#define LINE_TOKEN            ""                           // LINE Messaging APIのChannel access token
+/* LINE API */
+#define LINE_HOST           "api.line.me"                // LINE Messaging APIのホスト名
+#define LINE_BROADCAST_PATH "/v2/bot/message/broadcast"  // LINE Messaging APIのパス
+#define LINE_PUSH_PATH      "/v2/bot/message/push"       // LINE Messaging APIのパス
+#define LINE_TOKEN          "" // LINE Messaging APIのChannel access token
+//#define LINE_GROUP_ID       "" // LINE Group ID
 
+/* SDカードのファイル名 */
 #define FONT_PATH             "/fonts/genshin-regular-20"  // フォント名(.vlwは省略)
 
 #define SELECT_SOUND_PATH     "/sounds/select.mp3"         // 選択時の音声ファイル

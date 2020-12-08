@@ -4,7 +4,7 @@
   #include <M5Stack.h>
 #elif DEVICE == M5STACKCORE2
   #include <M5Core2.h>
-#elif DEVICE == ATOMLITE || DEVICE == ATOMMATRIX
+#elif DEVICE == ATOMLITE || DEVICE == ATOMMATRIX || DEVICE == ATOMECHO
   #include <M5Atom.h>
 #endif
 
