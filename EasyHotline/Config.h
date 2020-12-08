@@ -21,7 +21,7 @@
 #define LINE_BROADCAST_PATH "/v2/bot/message/broadcast"  // LINE Messaging APIのパス
 #define LINE_PUSH_PATH      "/v2/bot/message/push"       // LINE Messaging APIのパス
 #define LINE_TOKEN          "" // LINE Messaging APIのChannel access token
-#define LINE_GROUP_ID       "" // LINE Group ID
+//#define LINE_GROUP_ID       "" // LINE Group ID
 
 /* SDカードのファイル名 */
 #define FONT_PATH             "/fonts/genshin-regular-20"  // フォント名(.vlwは省略)

@@ -45,8 +45,11 @@ bool sendLineMessage(String msg) {
   // 送信中画面表示
   UIController::drawSendingMessage();
   delay(200);
-  //return LineApiClient::sendGroupMessage(msg);
+  #if not defined(LINE_GROUP_ID)
   return LineApiClient::sendBroadcastMessage(msg);
+  #else
+  return LineApiClient::sendGroupMessage(msg);
+  #endif
 }
 
 // 選択時の動作

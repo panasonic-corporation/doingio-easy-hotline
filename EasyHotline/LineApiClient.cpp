@@ -43,6 +43,7 @@ bool LineApiClient::sendBroadcastMessage(String message) {
     }
 }
 
+#if defined(LINE_GROUP_ID)
 bool LineApiClient::sendGroupMessage(String message) {
     WiFiClientSecure client;
     HTTPClient http_client;
@@ -76,3 +77,4 @@ bool LineApiClient::sendGroupMessage(String message) {
         return false;
     }
 }
+#endif
